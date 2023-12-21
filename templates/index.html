@@ -3,16 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Upload</title>
+    <title>CSS Grid Layout</title>
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <div id="drop-area">
-        <p>Drag an image here or paste it from the clipboard.</p>
-        <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
-        <label class="button" for="fileElem">Select some files</label>
+    <div class="container">
+        <div class="left-side">
+            <div class="search-bar">Search Bar</div>
+            <div class="image-grid" id=gallery>Image Grid</div>
+        </div>
+        <div class="right-side">
+            <div class="drop-area">
+              <p>Drag an image here or paste it from the clipboard.</p>
+              <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+              <label class="button" for="fileElem">Select some files</label>
+           </div>
+            <div class="metadata">Metadata Input</div>
+        </div>
     </div>
-    <div id="gallery"></div>
     <script src="static/script.js"></script>
 </body>
 </html>
