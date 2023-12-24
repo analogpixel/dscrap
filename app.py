@@ -1,6 +1,9 @@
+#!/usr/bin/env python
+
 from flask import Flask, request, jsonify, render_template, send_from_directory
 import os
 from werkzeug.utils import secure_filename
+from PIL import Image
 
 app = Flask(__name__)
 
@@ -17,6 +20,18 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def resize_image(img_filename):
+    # load an image and set the height to 400 and with depending on the aspect ratio
+    img = Image.open(img_filename)
+    baseheight = 400
+    hpercent = (baseheight / float(img.size[1]))
+    wsize = int((float(img.size[0]) * float(hpercent)))
+    img = img.resize((wsize, baseheight), Image.ANTIALIAS)
+    # save the resized image to a file
+    # use basename to get extract the filename from the path
+    filename = os.path.basename(img_filename)
+    img.save( f"cache/{filename}")
+    
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -34,6 +49,10 @@ def upload_file():
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        # create thumbnail for the image
+        resize_image(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         return jsonify({'message': 'File successfully uploaded'}), 200
     else:
         return jsonify({'message': 'Allowed file types are png, jpg, jpeg, gif'}), 400
