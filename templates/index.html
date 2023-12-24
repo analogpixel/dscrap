@@ -18,7 +18,21 @@
               <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
               <label class="button" for="fileElem">Select some files</label>
            </div>
-            <div class="metadata">Metadata Input</div>
+            <div class="metadata">
+              <!-- create a form with text boxes to send the data to the server --> 
+              <form action="/metadata" method="post" enctype="multipart/form-data">
+                <label for="img_name">img_name:</label>
+                <input type="text" id="img_name" name="img_name" placeholder="image name">
+
+                <label for="tags">Tags:</label>
+                <input type="text" id="tags" name="tags" placeholder="a,b">
+
+                <label for="description">Decription:</label>
+                <input type="text" id="description" name="description" placeholder="desc..">
+
+                <input type="submit" value="Submit">
+
+            </div>
         </div>
     </div>
     <script src="static/script.js"></script>

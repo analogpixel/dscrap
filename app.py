@@ -31,7 +31,22 @@ def resize_image(img_filename):
     # use basename to get extract the filename from the path
     filename = os.path.basename(img_filename)
     img.save( f"cache/{filename}")
-    
+
+# create a route to accept metadata from form and write it to the file
+@app.route('/metadata', methods=['POST'])
+def metadata():
+    # get the form data
+    img_name = request.form.get('img_name')
+    description = request.form.get('description')
+    tags = request.form.get('tags')
+
+    # open the file in append mode
+    with open( f"{img_name}.json", 'a') as f:
+        # write the metadata to the file
+        f.write(f'{tags}\n{description}\n')
+    # send a success message
+    return jsonify({'message': 'Metadata successfully saved'}), 200
+
 @app.route('/')
 def index():
     return render_template('index.html')
