@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify, render_template, send_from_directory
 import os
 from werkzeug.utils import secure_filename
 from PIL import Image
+import sql
 
 app = Flask(__name__)
 
